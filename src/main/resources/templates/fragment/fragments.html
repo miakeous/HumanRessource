@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>NavBar</title>
+</head>
+<body>
+<div th:fragment="navbar">
+<nav  class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/home">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Display information
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1" sec:authorize="hasAnyRole('ADMIN','SALES','USER','RH')" >
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN')" href="/employeesGraph">All salary</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN','RH','SALES','USER')"href="/allemployees">All Employees</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN')" href="/employeesDecile">Employees per decile</a>
+                    <div class="dropdown-divider" sec:authorize="hasAnyRole('ADMIN','SALES')"></div>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN','SALES')" href="/locations">Informations about Locations</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN','SALES')" href="/regions">Informations about Regions</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN','SALES')" href="/countries">Informations about Countries</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN','RH')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Update data
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2" sec:authorize="hasAnyRole('ADMIN','RH')">
+                    <a class="dropdown-item"  href="/employeesUpdate">Update Employees</a>
+                    <a class="dropdown-item"  href="#">Update Jobs</a>
+                    <a class="dropdown-item"  href="#">Update Jobs History</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN')" href="#">Locations</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN')" href="/regionsUpdate">Regions</a>
+                    <a class="dropdown-item" sec:authorize="hasAnyRole('ADMIN')" href="/countriesUpdate">Countries</a>
+                </div>
+            </li>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="/logout">
+
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
+</div>
+</body>
+</html>

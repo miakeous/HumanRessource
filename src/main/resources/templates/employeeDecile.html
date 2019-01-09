@@ -1,0 +1,69 @@
+<!-- Thymeleaf Namespace -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+
+    <script src="js/chart.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--/*/ <th:block th:include="fragment/fragments.html :: navbar ">
+               </th:block> /*/-->
+</head>
+<body>
+<header th:fragment="navbar"></header>
+
+<div class="container">
+    <input id="myData" type="hidden" th:value="${axeX}"/>
+    <input id="myData2" type="hidden" th:value="${axeY}"/>
+    <canvas id="myChart" th:style="|width:400; height:400|" ></canvas>
+    <script th:src="@{/js/Chart.js}"
+    ></script>
+    <script>
+        let aX = document.getElementById("myData").value;
+        let aY = document.getElementById("myData2").value;
+
+        console.log(aX);
+        console.log(aY);
+        console.log(JSON.parse(aX));
+        let a = {labels : JSON.parse(aX),
+            datasets:[{
+                label:"Salary per decile",
+                data: JSON.parse(aY)
+            }]};
+        //var showtext3 = JSON.parse(showtext);
+        //var showtext4 = JSON.stringify(showtext);
+        //console.log(showtext3);
+        //console.log(showtext4);
+
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: a,
+            options: {
+                barThickness: 'flex',
+                scales: {
+                    xAxes: [{
+                        stacked: false,
+                        beginAtZero: true,
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }});
+
+    </script>
+
+</div>
+</body>
+</html>
