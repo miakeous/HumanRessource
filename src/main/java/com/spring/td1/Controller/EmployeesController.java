@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -76,8 +77,6 @@ public class EmployeesController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         logger.info("USER SUR ALLEMPLOYEES "+ auth.getName());
         EmployeesEntityDTO user = employeesService.findEmployeeByEmail(auth.getName());
-        JSONObject jsonFinal = new JSONObject();
-        JSONObject json = new JSONObject();
         JSONArray json2 = new JSONArray();
         JSONArray json3 = new JSONArray();
         List<String> axeX;
@@ -131,7 +130,7 @@ public class EmployeesController {
 
         return "employeesForm";
     }
-
+    @Transactional
     @RequestMapping(value = { "/update/employees" }, method = RequestMethod.POST)
     public ModelAndView updateEmployeeInformation(Model model, //
                                                 @ModelAttribute("employeesForm") EmployeesEntity employeesEntity) {
